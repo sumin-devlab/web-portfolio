@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>하수민 IT Portfolio</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #fff7f0;
+      --bg-soft: #fffaf5;
+      --surface: rgba(255, 250, 245, 0.96);
+      --card: #ffffff;
+      --line: #fed7aa;
+      --line-soft: #ffedd5;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #ea580c;
+      --primary-dark: #9a3412;
+      --primary-soft: #fff1e6;
+      --shadow: 0 16px 40px rgba(154, 52, 18, 0.10);
+      --shadow-soft: 0 10px 28px rgba(154, 52, 18, 0.08);
+      --radius-lg: 28px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #fff3e8 0%, #fff8f3 45%, #fffdf9 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 22px;
+      background: linear-gradient(180deg, rgba(154, 52, 18, 0.97) 0%, rgba(194, 65, 12, 0.96) 50%, rgba(234, 88, 12, 0.94) 100%);
+      color: white;
+      box-shadow: 12px 0 32px rgba(124, 45, 18, 0.14);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 20;
+    }
+
+    .sidebar::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      top: 40px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.10);
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    .logo {
+      font-size: 30px;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      margin-bottom: 34px;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 17px;
+      margin-top: 7px;
+      color: #ffddb9;
+      font-weight: 600;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .menu-link {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: #fff2e8;
+      font-weight: 600;
+      transition: all 0.22s ease;
+    }
+
+    .menu-link:hover,
+    .menu-link.active {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      transform: translateX(2px);
+      box-shadow: 0 8px 20px rgba(124, 45, 18, 0.18);
+    }
+
+    .sidebar-note {
+      margin-top: 26px;
+      font-size: 13px;
+      color: #ffe8d4;
+      opacity: 0.9;
+    }
+
+    .main-content {
+      padding: 34px;
+    }
+
+    .mobile-topbar {
+      display: none;
+    }
+
+    .hero {
+      margin-bottom: 26px;
+    }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .stats-panel,
+    .card,
+    .about-card,
+    .contact-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(254, 215, 170, 0.9);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-card {
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #9a3412 0%, #ea580c 55%, #fb923c 100%);
+      color: white;
+      box-shadow: 0 20px 36px rgba(234, 88, 12, 0.22);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      top: -20px;
+      right: -10px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      filter: blur(3px);
+    }
+
+    .eyebrow {
+      color: #fff1e6;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.3px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card h2 {
+      font-size: 42px;
+      line-height: 1.18;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: #fff7ed;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-desc {
+      max-width: 720px;
+      color: rgba(255, 255, 255, 0.96);
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+      font-size: 15px;
+    }
+
+    .stats-panel {
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      background: var(--surface);
+    }
+
+    .stats-panel h3 {
+      font-size: 17px;
+      margin-bottom: 14px;
+      color: var(--primary-dark);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .stat-card {
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+      border: 1px solid var(--line-soft);
+      padding: 18px;
+      min-height: 124px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stat-card h4 {
+      font-size: 13px;
+      color: #9a3412;
+      font-weight: 700;
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-top: 8px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+      scroll-margin-top: 110px;
+    }
+
+    .section-shell {
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(254, 215, 170, 0.68);
+      border-radius: 30px;
+      padding: 24px;
+      box-shadow: 0 14px 34px rgba(154, 52, 18, 0.06);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .section-header h2 {
+      font-size: 29px;
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    #searchInput {
+      width: 280px;
+      max-width: 100%;
+      border: 1px solid var(--line);
+      background: #fff7ed;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    #searchInput:focus {
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.10);
+    }
+
+    .project-grid,
+    .skills-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .project-grid {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .skills-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card {
+      border-radius: 24px;
+      padding: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      height: 100%;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 34px rgba(154, 52, 18, 0.12);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: #ffedd5;
+      color: #c2410c;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .project-card h3,
+    .skill-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    .project-card p,
+    .skill-card p,
+    .about-card p,
+    .contact-card p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 9px;
+    }
+
+    .project-card ul {
+      padding-left: 18px;
+      margin: 10px 0 16px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .project-card li {
+      margin-bottom: 4px;
+    }
+
+    .project-links {
+      margin-top: auto;
+    }
+
+    .project-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(234, 88, 12, 0.24);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .project-links a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 22px rgba(234, 88, 12, 0.28);
+    }
+
+    .about-card,
+    .contact-card {
+      border-radius: 24px;
+      padding: 22px;
+    }
+
+    .contact-card strong {
+      color: var(--primary-dark);
+    }
+
+    .contact-card a {
+      color: #c2410c;
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #9a3412;
+      font-size: 12px;
+      margin-top: 12px;
+      opacity: 0.86;
+    }
+
+    @media (max-width: 1180px) {
+      .layout {
+        grid-template-columns: 230px minmax(0, 1fr);
+      }
+
+      .main-content {
+        padding: 24px;
+      }
+
+      .hero-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-topbar {
+        display: block;
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(124, 45, 18, 0.88);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        color: white;
+        padding: 18px 16px 14px;
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+        box-shadow: 0 10px 24px rgba(124, 45, 18, 0.18);
+      }
+
+      .mobile-brand h1 {
+        font-size: 22px;
+        line-height: 1.2;
+        font-weight: 800;
+      }
+
+      .mobile-brand span {
+        display: block;
+        margin-top: 5px;
+        font-size: 13px;
+        color: #ffddb9;
+      }
+
+      .mobile-menu {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-top: 14px;
+      }
+
+      .mobile-menu::-webkit-scrollbar {
+        display: none;
+      }
+
+      .mobile-menu .menu-link {
+        white-space: nowrap;
+        padding: 8px 13px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.10);
+        color: #fff1e6;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+
+      .mobile-menu .menu-link.active,
+      .mobile-menu .menu-link:hover {
+        background: linear-gradient(135deg, #fb923c, #ea580c);
+        color: white;
+        transform: none;
+      }
+
+      .main-content {
+        padding: 18px 14px 30px;
+      }
+
+      .hero-card,
+      .stats-panel,
+      .section-shell,
+      .card,
+      .about-card,
+      .contact-card {
+        border-radius: 24px;
+      }
+
+      .hero-card {
+        padding: 24px 18px;
+      }
+
+      .hero-card h2 {
+        font-size: 28px;
+      }
+
+      .hero-sub,
+      .hero-desc {
+        font-size: 14px;
+      }
+
+      .section-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .section-header h2 {
+        font-size: 24px;
+      }
+
+      #searchInput {
+        width: 100%;
+      }
+
+      .project-grid,
+      .skills-grid,
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .main-content {
+        padding: 16px 12px 28px;
+      }
+
+      .mobile-topbar {
+        padding: 16px 12px 12px;
+      }
+
+      .hero-card h2 {
+        font-size: 24px;
+      }
+
+      .section-header h2 {
+        font-size: 22px;
+      }
+
+      .project-card h3,
+      .skill-card h3 {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="mobile-topbar">
+    <div class="mobile-brand">
+      <h1>SUMIN DevHub</h1>
+      <span>IT 운영 / 시스템 관리 / 초급 개발 포트폴리오</span>
+    </div>
+    <nav class="mobile-menu">
+      <a href="#home" class="menu-link active">Home</a>
+      <a href="#projects" class="menu-link">Projects</a>
+      <a href="#skills" class="menu-link">Skills</a>
+      <a href="#education" class="menu-link">Education</a>
+      <a href="#about" class="menu-link">About</a>
+      <a href="#contact" class="menu-link">Contact</a>
+    </nav>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div>
+        <h1 class="logo">SUMIN<br><span>DevHub</span></h1>
+        <nav class="menu">
+          <a href="#home" class="menu-link active">Home</a>
+          <a href="#projects" class="menu-link">Projects</a>
+          <a href="#skills" class="menu-link">Skills</a>
+          <a href="#education" class="menu-link">Education</a>
+          <a href="#about" class="menu-link">About</a>
+          <a href="#contact" class="menu-link">Contact</a>
+        </nav>
+      </div>
+      <p class="sidebar-note">Orange responsive portfolio · PC / Mobile unified</p>
+    </aside>
+
+    <main class="main-content">
+      <section id="home" class="section hero">
+        <div class="hero-wrap">
+          <div class="hero-card">
+            <p class="eyebrow">IT / 운영 / 시스템관리 지향</p>
+            <h2>SUMIN's DevHub</h2>
+            <p class="hero-sub">Projects Dashboard</p>
+            <p class="hero-desc">
+              Python 기반 자동화 프로젝트, Java(Spring Boot) 기반 서버 모니터링 시스템,
+              웹 포트폴리오, 그리고 안드로이드 모바일 앱까지 포함한
+              실무 지향형 IT 포트폴리오입니다.
+            </p>
+          </div>
+
+          <div class="stats-panel">
+            <h3>Project Summary</h3>
+            <div class="stats-grid">
+              <div class="stat-card">
+                <h4>총 프로젝트</h4>
+                <p class="stat-number">10</p>
+              </div>
+              <div class="stat-card">
+                <h4>Python 프로젝트</h4>
+                <p class="stat-number">5</p>
+              </div>
+              <div class="stat-card">
+                <h4>JAVA 프로젝트</h4>
+                <p class="stat-number">2</p>
+              </div>
+              <div class="stat-card">
+                <h4>Mobile / Android</h4>
+                <p class="stat-number">1</p>
+              </div>
+              <div class="stat-card">
+                <h4>Web / Ops 문서</h4>
+                <p class="stat-number">2</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-shell">
+          <div class="section-header">
+            <h2>Projects</h2>
+            <input type="text" id="searchInput" placeholder="프로젝트 검색..." />
+          </div>
+
+          <div class="project-grid" id="projectGrid">
+
+            <article class="card project-card" data-name="system monitor python 시스템 모니터링">
+              <div class="badge">Python</div>
+              <h3>System Monitor (Python)</h3>
+              <p>Python을 이용해 시스템 상태를 확인하는 모니터링 프로그램입니다.</p>
+              <p>CPU, 메모리, 디스크 사용률과 네트워크 상태를 확인하고 로그 파일 기록 기능을 구현했습니다.</p>
+              <ul>
+                <li>CPU 사용률 확인</li>
+                <li>메모리 사용률 확인</li>
+                <li>디스크 사용량 확인</li>
+                <li>네트워크 상태 확인</li>
+                <li>로그 기록 기능</li>
+                <li>CPU 사용률 80% 이상 경고</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/python-system-monitor" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="expense analyzer 지출 분석 python 자동화">
+              <div class="badge">Python</div>
+              <h3>Expense Analyzer</h3>
+              <p>개인 지출 데이터 분석 및 자동화 도구</p>
+              <p>CSV 및 Excel 파일을 기반으로 개인 지출 데이터를 분석하고 요약 리포트를 생성하는 Python 자동화 프로그램입니다.</p>
+              <ul>
+                <li>CSV / Excel 파일 입력 처리</li>
+                <li>지출 데이터 자동 분석 및 집계</li>
+                <li>카테고리별 지출 요약</li>
+                <li>결과를 CSV 파일로 자동 저장</li>
+                <li>파일 경로 입력 기반 CLI 실행</li>
+                <li>데이터 처리 자동화 경험</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/python-expense-analyzer" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="media classifier 미디어 파일 분류기 python 자동화 파일관리">
+              <div class="badge">Python</div>
+              <h3>Media Classifier</h3>
+              <p>파일 자동 분류 및 정리 Python 프로그램입니다.</p>
+              <ul>
+                <li>폴더 내 파일 자동 탐색</li>
+                <li>이미지 / 영상 분류</li>
+                <li>파일 확장자 및 기준별 자동 분류</li>
+                <li>업무 자동화 흐름 경험</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/python-media-classifier" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="image analyzer web flask opencv 이미지 분석 웹">
+              <div class="badge">Python</div>
+              <h3>Image Analyzer Web</h3>
+              <p>얼굴 인식 기반 이미지 분석 웹 애플리케이션</p>
+              <p>업로드된 이미지에서 얼굴을 검출하고, 기준 이미지와 비교하여 특정 인물 포함 여부를 판별하는 웹 애플리케이션입니다.</p>
+              <ul>
+                <li>이미지 업로드 및 분석 기능</li>
+                <li>OpenCV 기반 얼굴 검출</li>
+                <li>히스토그램 기반 이미지 유사도 비교</li>
+                <li>특정 인물 포함 여부 판별</li>
+                <li>분석 결과 및 유사도 점수 출력</li>
+                <li>Flask 기반 웹 인터페이스</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/image-analyzer-web" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="face classifier 하영이 사진 분류기 python 이미지 분류">
+              <div class="badge">Python</div>
+              <h3>Face Classifier</h3>
+              <p>특정 인물 사진을 기준 이미지와 비교하여 분류하는 Python 프로그램입니다.</p>
+              <ul>
+                <li>파일 처리 로직 구현</li>
+                <li>로컬 환경 실행형 프로그램</li>
+                <li>기초 분류 자동화 경험</li>
+                <li>OpenCV 기반 얼굴 검출</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/python-face-classifier" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="java spring server monitoring dashboard oshi thymeleaf chartjs">
+              <div class="badge">JAVA</div>
+              <h3>Server Monitor Dashboard</h3>
+              <p>Spring Boot + OSHI 기반 서버 모니터링 웹 애플리케이션으로, 서버 상태 이상 감지 및 대응이 가능한 구조로 설계했습니다.</p>
+              <p>CPU 및 메모리 사용량을 실시간으로 수집하고, Chart.js를 통해 시각화하여 서버 상태를 한눈에 확인할 수 있도록 구현했습니다.</p>
+              <ul>
+                <li>OSHI 라이브러리 기반 시스템 정보 수집</li>
+                <li>Spring Boot 백엔드 구성</li>
+                <li>Thymeleaf 기반 대시보드 UI</li>
+                <li>Chart.js 실시간 그래프 시각화</li>
+                <li>3초 주기 자동 갱신</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/server-monitor-dashboard" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="java spring ops watcher monitoring crud security server management">
+              <div class="badge">JAVA</div>
+              <h3>OpsWatcher</h3>
+              <p>Spring Boot 기반 IT 운영/서버 관리 시스템으로, 장애 대응 및 운영 자동화를 고려해 설계했습니다.</p>
+              <ul>
+                <li>Spring Security 인증 및 로그인 기능</li>
+                <li>서버 CRUD 관리 기능</li>
+                <li>상태 자동 판단 로직</li>
+                <li>운영 중심 대시보드 UI</li>
+                <li>MySQL 기반 데이터 관리</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/ops-management-system" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="except number android 모바일 앱 연락처 무음 앱">
+              <div class="badge">Mobile</div>
+              <h3>Except Number (Android)</h3>
+              <p>컴퓨터정보과 캡스톤 디자인 팀 프로젝트로 개발한 특정 연락처만 벨소리를 허용하는 안드로이드 앱입니다.</p>
+              <p>Android ContactsContract API를 활용해 연락처 데이터를 불러오고, RecyclerView를 통해 연락처 목록을 표시하며 AudioManager를 이용해 특정 연락처에 대해 무음/진동 모드를 제어하도록 구현했습니다.</p>
+              <ul>
+                <li>연락처 API 활용</li>
+                <li>RecyclerView 기반 연락처 리스트</li>
+                <li>AudioManager로 무음/진동 제어</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/Android-except-number" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="개인 포트폴리오 웹사이트 html css javascript 프론트엔드">
+              <div class="badge">Web</div>
+              <h3>개인 포트폴리오 웹사이트</h3>
+              <p>HTML, CSS, JavaScript를 활용해 제작한 개인용 포트폴리오 대시보드입니다.</p>
+              <ul>
+                <li>반응형 레이아웃</li>
+                <li>프로젝트 카드 UI 구성</li>
+                <li>검색 기능 구현</li>
+                <li>PC / 모바일 화면 대응</li>
+              </ul>
+              <div class="project-links"><a href="#" target="_blank">GitHub</a></div>
+            </article>
+
+            <article class="card project-card" data-name="it 운영 문제 해결 시나리오 운영 시스템 지원">
+              <div class="badge">IT Operations</div>
+              <h3>IT 운영 문제 해결 시나리오</h3>
+              <p>사내 PC에서 프로그램이 실행되지 않는 상황을 가정하고 문제 원인을 단계적으로 확인하는 IT 운영 대응 절차를 정리했습니다.</p>
+              <ul>
+                <li>사용자 환경 및 오류 상황 확인</li>
+                <li>프로그램 설치 여부 및 버전 확인</li>
+                <li>시스템 로그 및 오류 메시지 확인</li>
+                <li>프로그램 재설치 및 실행 테스트</li>
+                <li>문제 해결 후 사용자 안내</li>
+              </ul>
+              <div class="project-links"><a href="https://github.com/sumin-devlab/IT-operation" target="_blank">GitHub</a></div>
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="section-shell">
+          <div class="section-header">
+            <h2>Skills</h2>
+          </div>
+          <div class="skills-grid">
+            <div class="card skill-card">
+              <h3>Python</h3>
+              <p>파일 처리, 자동화, 데이터 분석, 기초 프로그램 제작</p>
+            </div>
+            <div class="card skill-card">
+              <h3>Java / Spring Boot</h3>
+              <p>서버 관리 시스템, CRUD, 인증, 웹 대시보드 구현</p>
+            </div>
+            <div class="card skill-card">
+              <h3>HTML</h3>
+              <p>웹 구조 설계 및 페이지 구성</p>
+            </div>
+            <div class="card skill-card">
+              <h3>CSS</h3>
+              <p>레이아웃, 카드 UI, 반응형 스타일링</p>
+            </div>
+            <div class="card skill-card">
+              <h3>JavaScript</h3>
+              <p>검색 기능, 메뉴 활성화 등 기본 인터랙션</p>
+            </div>
+            <div class="card skill-card">
+              <h3>IT 관심 분야</h3>
+              <p>IT 운영, 시스템 관리, 서버 모니터링, 개발자 지원</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="education" class="section">
+        <div class="section-shell">
+          <div class="section-header">
+            <h2 style="color:#1e3a8a;">Education</h2>
+          </div>
+          <div class="about-card">
+            <p>제주한라대학교 방송영상학과 <strong style="color:#1e3a8a">(학사 예정, 2027.2 졸업 예정)</strong></p>
+            <p>제주한라대학교 <strong style="color:#334155;">컴퓨터정보과</strong> (전문학사, 2025.2 졸업)</p>
+            <p>→ 컴퓨터정보 전공을 기반으로 <strong>Python 자동화 프로젝트</strong>와 <strong>Java(Spring Boot) 서버 관리 프로젝트</strong>를 직접 구현했습니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-shell">
+          <div class="section-header">
+            <h2>About</h2>
+          </div>
+          <div class="about-card">
+            <p>안녕하세요. IT 운영 및 시스템 관리 분야에 관심을 가지고 Python 자동화 프로젝트와 Java 기반 서버 관리 프로젝트를 제작하고 있는 하수민입니다.</p>
+            <p>파일 관리 자동화, 시스템 모니터링, 서버 상태 관리, 웹 대시보드 구현을 통해 업무를 효율적으로 정리하고 관리하는 방법을 배우고 있습니다.</p>
+            <p>앞으로 IT 운영과 시스템 관리 분야에서 실무 경험을 쌓으며 안정적인 IT 환경을 지원하는 인재가 되고자 합니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="section-shell">
+          <div class="section-header">
+            <h2>Contact</h2>
+          </div>
+          <div class="contact-card">
+            <p><strong>이름:</strong> 하수민</p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/sumin-devlab" target="_blank">https://github.com/sumin-devlab</a></p>
+            <p><strong>Email:</strong> <a href="mailto:benjam2n95@hanmail.net">benjam2n95@hanmail.net</a></p>
+            <p><strong>한 줄 소개:</strong> IT 운영 / 시스템 관리 / 초급 개발 직무 준비 중</p>
+          </div>
+        </div>
+      </section>
+
+      <p class="footer-note">Responsive orange portfolio · single file version</p>
+    </main>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const projectCards = document.querySelectorAll(".project-card");
+    const menuLinks = document.querySelectorAll(".menu-link");
+    const sections = document.querySelectorAll("section");
+
+    if (searchInput) {
+      searchInput.addEventListener("input", function () {
+        const keyword = searchInput.value.toLowerCase().trim();
+
+        projectCards.forEach((card) => {
+          const text = (card.dataset.name || "").toLowerCase();
+          card.style.display = text.includes(keyword) ? "block" : "none";
+        });
+      });
+    }
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 140;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      menuLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
