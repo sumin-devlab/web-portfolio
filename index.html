@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>하수민 IT Portfolio</title>
+<meta content="Python, Java Spring Boot 기반 시스템 운영, 서버 관리, 백엔드 개발 지향 신입 IT 포트폴리오" name="description"/>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fff7f0;
+      --surface: rgba(255, 250, 245, 0.96);
+      --card: #ffffff;
+      --line: #fed7aa;
+      --line-soft: #ffedd5;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #ea580c;
+      --primary-dark: #9a3412;
+      --primary-soft: #fff1e6;
+      --blue: #1e3a8a;
+      --green: #166534;
+      --shadow: 0 16px 40px rgba(154, 52, 18, 0.10);
+      --shadow-soft: 0 10px 28px rgba(154, 52, 18, 0.08);
+      --radius-lg: 28px;
+      --radius-md: 22px;
+      --radius-sm: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg, #fff3e8 0%, #fff8f3 45%, #fffdf9 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 28px 22px;
+      background: linear-gradient(180deg, rgba(154, 52, 18, 0.97) 0%, rgba(194, 65, 12, 0.96) 50%, rgba(234, 88, 12, 0.94) 100%);
+      color: white;
+      box-shadow: 12px 0 32px rgba(124, 45, 18, 0.14);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 20;
+    }
+
+    .logo {
+      font-size: 30px;
+      line-height: 1.15;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      margin-bottom: 34px;
+    }
+
+    .logo span {
+      display: block;
+      font-size: 17px;
+      margin-top: 7px;
+      color: #ffddb9;
+      font-weight: 600;
+    }
+
+    .menu { display: flex; flex-direction: column; gap: 10px; }
+
+    .menu-link {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: #fff2e8;
+      font-weight: 700;
+      transition: all 0.22s ease;
+    }
+
+    .menu-link:hover,
+    .menu-link.active {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      transform: translateX(2px);
+      box-shadow: 0 8px 20px rgba(124, 45, 18, 0.18);
+    }
+
+    .sidebar-note { margin-top: 26px; font-size: 13px; color: #ffe8d4; opacity: 0.9; }
+    .main-content { padding: 34px; }
+    .mobile-topbar { display: none; }
+    .section { margin-bottom: 24px; scroll-margin-top: 110px; }
+
+    .hero-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-card,
+    .stats-panel,
+    .card,
+    .about-card,
+    .contact-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(254, 215, 170, 0.9);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .hero-card {
+      border-radius: var(--radius-lg);
+      padding: 34px 30px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #9a3412 0%, #ea580c 55%, #fb923c 100%);
+      color: white;
+      box-shadow: 0 20px 36px rgba(234, 88, 12, 0.22);
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      top: -20px;
+      right: -10px;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      filter: blur(3px);
+    }
+
+    .eyebrow {
+      color: #fff1e6;
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card h2 { font-size: 40px; line-height: 1.18; margin-bottom: 12px; position: relative; z-index: 1; }
+    .hero-sub { font-size: 18px; color: #fff7ed; margin-bottom: 12px; position: relative; z-index: 1; font-weight: 800; }
+    .hero-desc { max-width: 760px; color: rgba(255, 255, 255, 0.96); margin-bottom: 16px; position: relative; z-index: 1; font-size: 15px; }
+
+    .hero-bullets {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 8px;
+      margin: 16px 0 18px;
+      list-style: none;
+    }
+
+    .hero-bullets li {
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      padding: 9px 12px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; position: relative; z-index: 1; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 14px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 900;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .btn-primary { background: white; color: var(--primary-dark); box-shadow: 0 8px 20px rgba(124,45,18,0.18); }
+    .btn-ghost { background: rgba(255,255,255,0.14); color: white; border: 1px solid rgba(255,255,255,0.24); }
+    .btn:hover { transform: translateY(-1px); }
+
+    .stats-panel { border-radius: var(--radius-lg); padding: 22px; background: var(--surface); }
+    .stats-panel h3 { font-size: 17px; margin-bottom: 14px; color: var(--primary-dark); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .stat-card {
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+      border: 1px solid var(--line-soft);
+      padding: 18px;
+      min-height: 114px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stat-card h4 { font-size: 13px; color: #9a3412; font-weight: 800; }
+    .stat-number { font-size: 34px; font-weight: 900; color: var(--primary); line-height: 1; margin-top: 8px; }
+
+    .section-shell {
+      background: rgba(255, 255, 255, 0.68);
+      border: 1px solid rgba(254, 215, 170, 0.68);
+      border-radius: 30px;
+      padding: 24px;
+      box-shadow: 0 14px 34px rgba(154, 52, 18, 0.06);
+    }
+
+    .section-header { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-bottom: 18px; }
+    .section-header h2 { font-size: 29px; color: var(--primary-dark); font-weight: 900; }
+
+    #searchInput {
+      width: 280px;
+      max-width: 100%;
+      border: 1px solid var(--line);
+      background: #fff7ed;
+      border-radius: 16px;
+      padding: 12px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    #searchInput:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(234, 88, 12, 0.10); }
+
+    .project-grid, .skills-grid { display: grid; gap: 16px; }
+    .project-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .skills-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+    .card { border-radius: 24px; padding: 20px; transition: transform 0.2s ease, box-shadow 0.2s ease; height: 100%; display: flex; flex-direction: column; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 18px 34px rgba(154, 52, 18, 0.12); }
+
+    .badge { display: inline-block; padding: 6px 11px; border-radius: 999px; background: #ffedd5; color: #c2410c; font-size: 12px; font-weight: 900; margin-bottom: 10px; align-self: flex-start; }
+    .badge.ops { background:#dcfce7; color:#166534; }
+    .badge.java { background:#e0f2fe; color:#075985; }
+    .badge.mobile { background:#f3e8ff; color:#6b21a8; }
+
+    .project-card h3, .skill-card h3 { font-size: 20px; margin-bottom: 10px; color: var(--primary-dark); font-weight: 900; }
+    .project-card p, .skill-card p, .about-card p, .contact-card p { font-size: 14px; color: var(--muted); margin-bottom: 9px; }
+    .project-card ul { padding-left: 18px; margin: 10px 0 14px; color: #374151; font-size: 14px; }
+    .project-card li { margin-bottom: 4px; }
+
+    .project-point {
+      border-left: 4px solid var(--primary);
+      background: #fff7ed;
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: #7c2d12 !important;
+      font-weight: 800;
+      margin: 8px 0 12px !important;
+    }
+
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 7px; margin: 8px 0 14px; }
+    .tech-tags span { padding: 5px 9px; border-radius: 999px; background: #f8fafc; border: 1px solid #e5e7eb; color: #374151; font-size: 12px; font-weight: 800; }
+
+    .project-links { margin-top: auto; display:flex; gap:8px; flex-wrap:wrap; }
+    .project-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 14px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white;
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(234, 88, 12, 0.24);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .project-links a:hover { transform: translateY(-1px); box-shadow: 0 12px 22px rgba(234, 88, 12, 0.28); }
+
+    .about-card, .contact-card { border-radius: 24px; padding: 22px; }
+    .highlight-box {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--blue);
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    .relocation-box {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: var(--green);
+      font-weight: 900;
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .contact-card strong { color: var(--primary-dark); }
+    .contact-card a { color: #c2410c; font-weight: 800; word-break: break-all; }
+    .contact-buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .contact-buttons a { background:#fff7ed; border:1px solid var(--line); padding:10px 12px; border-radius:14px; }
+    .footer-note { text-align: center; color: #9a3412; font-size: 12px; margin-top: 12px; opacity: 0.86; }
+
+
+    .quick-panel {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .quick-card {
+      border-radius: 22px;
+      background: linear-gradient(180deg, #ffffff 0%, #fff7ed 100%);
+      border: 1px solid var(--line-soft);
+      padding: 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .quick-card h3 {
+      color: var(--primary-dark);
+      font-size: 16px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .quick-card p {
+      color: #4b5563;
+      font-size: 14px;
+      margin-bottom: 0;
+    }
+
+    .focus-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .focus-item {
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid var(--line-soft);
+      padding: 14px 16px;
+    }
+
+    .focus-item strong {
+      display: block;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .focus-item span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mini-label {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 11px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .project-card.featured {
+      border: 2px solid rgba(234, 88, 12, 0.35);
+      box-shadow: 0 18px 36px rgba(234, 88, 12, 0.12);
+    }
+
+    .project-meta {
+      display: grid;
+      gap: 6px;
+      margin: 10px 0 14px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .project-meta div {
+      border-radius: 12px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 8px 10px;
+    }
+
+    .project-meta strong {
+      color: #111827;
+    }
+
+    .career-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .career-card {
+      background: #ffffff;
+      border: 1px solid var(--line-soft);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .career-card h3 {
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .career-card ul {
+      padding-left: 18px;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .career-card li {
+      margin-bottom: 6px;
+    }
+
+    #education .section-shell {
+      padding: 18px 24px;
+    }
+
+    #education .section-header {
+      margin-bottom: 12px;
+    }
+
+    #education .about-card.education-card {
+      padding: 18px 22px;
+    }
+
+    .education-card p {
+      margin-bottom: 0 !important;
+      line-height: 1.5;
+    }
+
+    .education-card .edu-note {
+      margin-top: 3px !important;
+    }
+
+    .education-card .edu-school + .edu-school {
+      margin-top: 22px;
+    }
+
+    .education-card .highlight-box {
+      margin-top: 12px;
+      padding: 16px 18px;
+    }
+
+
+    .menu-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      color: #fff2e8;
+      font-weight: 800;
+      transition: all 0.22s ease;
+    }
+
+    .menu-link:hover,
+    .menu-link.active {
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      transform: translateX(3px);
+      box-shadow: 0 8px 20px rgba(124, 45, 18, 0.20);
+    }
+
+    #about .about-card { margin-top: 16px; }
+    .featured-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    #featured-projects .section-header h2::after { content: " · 대표 3개"; font-size: 15px; color: var(--muted); font-weight: 800; }
+    #projects .section-header h2::after { content: " · 기타 프로젝트"; font-size: 15px; color: var(--muted); font-weight: 800; }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 230px minmax(0, 1fr); }
+      .main-content { padding: 24px; }
+      .hero-wrap { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 860px) {
+      .layout { display: block; }
+      .sidebar { display: none; }
+      .mobile-topbar {
+        display: block;
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(124, 45, 18, 0.88);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        color: white;
+        padding: 18px 16px 14px;
+        border-bottom-left-radius: 24px;
+        border-bottom-right-radius: 24px;
+        box-shadow: 0 10px 24px rgba(124, 45, 18, 0.18);
+      }
+      .mobile-brand h1 { font-size: 22px; line-height: 1.2; font-weight: 900; }
+      .mobile-brand span { display: block; margin-top: 5px; font-size: 13px; color: #ffddb9; }
+      .mobile-menu { display: flex; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-top: 14px; }
+      .mobile-menu::-webkit-scrollbar { display: none; }
+      .mobile-menu .menu-link { white-space: nowrap; padding: 8px 13px; display: inline-flex; border-radius: 999px; background: rgba(255,255,255,0.10); color: #fff1e6; font-size: 13px; flex-shrink: 0; }
+      .mobile-menu .menu-link.active, .mobile-menu .menu-link:hover { background: linear-gradient(135deg, #fb923c, #ea580c); color: white; transform: none; }
+      .main-content { padding: 18px 14px 30px; }
+      .hero-card, .stats-panel, .section-shell, .card, .about-card, .contact-card { border-radius: 24px; }
+      .hero-card { padding: 24px 18px; }
+      .hero-card h2 { font-size: 28px; }
+      .hero-sub, .hero-desc { font-size: 14px; }
+      .section-header { flex-direction: column; align-items: stretch; }
+      .section-header h2 { font-size: 24px; }
+      #searchInput { width: 100%; }
+      .project-grid, .skills-grid, .stats-grid, .quick-panel, .career-grid { grid-template-columns: 1fr; }
+      .card { padding: 16px; }
+      .highlight-box, .relocation-box { font-size: 16px; }
+    }
+
+    @media (max-width: 380px) {
+      .main-content { padding: 16px 12px 28px; }
+      .mobile-topbar { padding: 16px 12px 12px; }
+      .hero-card h2 { font-size: 24px; }
+      .section-header h2 { font-size: 22px; }
+      .project-card h3, .skill-card h3 { font-size: 18px; }
+    }
+  
+
+    #about .quick-panel { margin-bottom: 16px; }
+    .featured-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+</style>
+</head>
+<body>
+<header class="mobile-topbar">
+<div class="mobile-brand">
+<h1>SUMIN DevHub</h1>
+<span>시스템 운영 · 서버 관리 · 백엔드 개발 포트폴리오</span>
+</div>
+<nav class="mobile-menu"><a class="menu-link active" href="#home">🏠 Home</a>
+<a class="menu-link" href="#about">🙋 About Me</a>
+<a class="menu-link" href="#career-fit">🎯 Career Fit</a>
+<a class="menu-link" href="#skills">💻 Skills</a>
+<a class="menu-link" href="#featured-projects">⭐ Featured Projects</a>
+<a class="menu-link" href="#projects">📂 Other Projects</a>
+<a class="menu-link" href="#education">🎓 Education</a>
+<a class="menu-link" href="#contact">📞 Contact</a>
+</nav>
+</header>
+<div class="layout">
+<aside class="sidebar">
+<div>
+<h1 class="logo">SUMIN<br/><span>DevHub</span></h1>
+<nav class="menu"><a class="menu-link active" href="#home">🏠 Home</a>
+<a class="menu-link" href="#about">🙋 About Me</a>
+<a class="menu-link" href="#career-fit">🎯 Career Fit</a>
+<a class="menu-link" href="#skills">💻 Skills</a>
+<a class="menu-link" href="#featured-projects">⭐ Featured Projects</a>
+<a class="menu-link" href="#projects">📂 Other Projects</a>
+<a class="menu-link" href="#education">🎓 Education</a>
+<a class="menu-link" href="#contact">📞 Contact</a>
+</nav>
+</div>
+<p class="sidebar-note">PC / Mobile menu fully updated</p>
+</aside>
+<main class="main-content">
+
+
+
+
+
+
+
+
+
+
+<section class="section hero" id="home">
+<div class="hero-wrap">
+<div class="hero-card">
+<p class="eyebrow">IT 운영 / 시스템 관리 / 백엔드 개발 지향</p>
+<h2>시스템 운영을 이해하는<br/>신입 IT 엔지니어 포트폴리오</h2>
+<p class="hero-sub">Python 자동화 · Java/Spring Boot · 서버 모니터링 · 운영 대응</p>
+<p class="hero-desc">
+              컴퓨터정보 전공 기반으로 Python 자동화와 Java(Spring Boot) 서버 관리 프로젝트를 직접 구현했으며,
+              시스템 상태 확인, 로그 기록, 장애 대응 흐름처럼 실제 운영 직무와 연결되는 내용을 중심으로 정리했습니다.
+            </p>
+<ul class="hero-bullets">
+<li>총 10개 프로젝트 공개 · GitHub 저장소 연결</li>
+<li>Python 5개 · Java/Spring Boot 2개 · Android 1개 · 운영 문서 1개</li>
+<li>2027.2 학사 졸업 예정 · 막학기 이수학점 2학점 남음 · 최종 합격하는 즉시 근무지 이주 가능</li>
+</ul>
+<div class="hero-actions">
+<a class="btn btn-primary" href="#featured-projects">대표 프로젝트 보기</a>
+<a class="btn btn-ghost" href="https://github.com/sumin-devlab" target="_blank">GitHub 보기</a>
+</div>
+</div>
+<div class="stats-panel">
+<h3>Project Summary</h3>
+<div class="stats-grid">
+<div class="stat-card"><h4>총 프로젝트</h4><p class="stat-number">10</p></div>
+<div class="stat-card"><h4>Python 프로젝트</h4><p class="stat-number">5</p></div>
+<div class="stat-card"><h4>Java / Spring</h4><p class="stat-number">2</p></div>
+<div class="stat-card"><h4>Android / Web / Ops</h4><p class="stat-number">3</p></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="about">
+<div class="section-shell">
+<div class="section-header">
+<h2>About Me</h2>
+</div>
+<div class="quick-panel">
+<div class="quick-card">
+<h3>목표 직무</h3>
+<p>시스템 운영, 서버 관리, 인프라/기술지원, 백엔드 개발 직무를 중심으로 준비했습니다.</p>
+</div>
+<div class="quick-card">
+<h3>핵심 기술</h3>
+<p>Python, Java/Spring Boot, MySQL, HTML/CSS/JavaScript, Linux 기본 학습 경험을 보유했습니다.</p>
+</div>
+<div class="quick-card">
+<h3>대표 경험</h3>
+<p>System Monitor, Server Monitor Dashboard, OpsWatcher를 통해 운영·모니터링 흐름을 구현했습니다.</p>
+</div>
+<div class="quick-card">
+<h3>근무 준비도</h3>
+<p>최종학기 학업 부담이 적으며(4학년 2학기에 2학점만 이수하면 됨), 최종 합격하는 그 즉시 근무지로 이주하여 장기 근무할 수 있습니다.</p>
+</div>
+</div>
+
+<div class="about-card">
+
+<p>안녕하세요. 시스템 운영과 백엔드 개발 분야를 목표로 준비해 온 하수민입니다.</p>
+<p>컴퓨터정보 전공에서 쌓은 서버·네트워크 기초와 Java(Spring Boot)·Python 기반 프로젝트 경험을 바탕으로 시스템 운영과 백엔드 개발 역량을 함께 키워왔습니다.</p>
+<p>특히 시스템 모니터링, 서버 관리 대시보드, 운영 문제 해결 시나리오처럼 실제 IT 운영 업무와 연결되는 프로젝트를 중심으로 포트폴리오를 구성했습니다.</p>
+<p>GitHub와 웹 포트폴리오를 통해 프로젝트를 공개하고, README와 코드를 지속적으로 정리하며 실무에 필요한 기술을 꾸준히 익히고 있습니다.</p>
+<div class="relocation-box">최종학기(4학년 2학기)에는 2학점만 이수하면 되므로 학업 부담이 적으며, 최종 합격하는 즉시 근무지 인근으로 이주하여 장기적으로 근무할 수 있습니다.</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="career-fit">
+<div class="section-shell">
+<div class="section-header"><h2>Career Fit</h2></div>
+<div class="career-grid">
+<div class="career-card">
+<h3>시스템 / 서버 운영</h3>
+<ul>
+<li>CPU, 메모리, 디스크 사용률 확인 프로젝트 구현</li>
+<li>로그 기록 및 임계치 경고 흐름 구현</li>
+<li>장애 상황 확인 절차를 운영 문서로 정리</li>
+</ul>
+</div>
+<div class="career-card">
+<h3>백엔드 / 관리 시스템</h3>
+<ul>
+<li>Spring Boot 기반 서버 관리 시스템 구현</li>
+<li>MySQL 연동, CRUD, 인증 기능 구현 경험</li>
+<li>대시보드 UI와 백엔드 데이터 흐름 구성</li>
+</ul>
+</div>
+<div class="career-card">
+<h3>자동화 / 기술지원</h3>
+<ul>
+<li>Python 기반 파일 처리와 데이터 처리 자동화</li>
+<li>CLI 실행 흐름과 결과 파일 저장 구현</li>
+<li>사용자 오류 상황 확인과 해결 절차 정리</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="skills">
+<div class="section-shell">
+<div class="section-header"><h2>Skills</h2></div>
+<div class="skills-grid">
+<div class="card skill-card"><h3>Python</h3><p>파일 처리, 자동화, 데이터 처리, 시스템 모니터링, OpenCV 기초 프로젝트 구현</p></div>
+<div class="card skill-card"><h3>Java / Spring Boot</h3><p>서버 관리 시스템, CRUD, 인증, 웹 대시보드, MySQL 연동 프로젝트 구현</p></div>
+<div class="card skill-card"><h3>System / Operations</h3><p>CPU·메모리·디스크 상태 확인, 로그 기록, 장애 대응 시나리오 정리</p></div>
+<div class="card skill-card"><h3>Database</h3><p>MySQL 기반 데이터 관리, 기본 CRUD, 테이블 구조 설계 경험</p></div>
+<div class="card skill-card"><h3>Web</h3><p>HTML, CSS, JavaScript 기반 반응형 UI, 검색 기능, 포트폴리오 페이지 제작</p></div>
+<div class="card skill-card"><h3>관심 분야</h3><p>Linux, 서버 운영, 시스템 엔지니어, 인프라, 백엔드 개발, IT 기술지원</p></div>
+</div>
+</div>
+</section>
+
+<section class="section" id="featured-projects">
+<div class="section-shell">
+<div class="section-header"><h2>Featured Projects</h2></div>
+<div class="project-grid featured-grid" id="featuredProjectGrid">
+<article class="card project-card featured" data-name="system monitor python 시스템 모니터링 linux cpu memory disk network log">
+<div class="badge ops">Operations</div>
+<h3>System Monitor (Python)</h3>
+<span class="mini-label">대표 프로젝트 · 운영/모니터링</span>
+<p class="project-point">시스템 운영 직무와 가장 직접적으로 연결되는 Python 기반 모니터링 프로젝트입니다.</p>
+<p>CPU, 메모리, 디스크 사용률과 네트워크 상태를 확인하고 로그 파일 기록 및 임계치 경고 기능을 구현했습니다.</p>
+<div class="tech-tags"><span>Python</span><span>psutil</span><span>logging</span><span>Network</span><span>Monitoring</span></div>
+<div class="project-meta"><div><strong>운영 관점:</strong> 서버 자원 사용률 확인과 임계치 경고 흐름을 구현</div><div><strong>면접 포인트:</strong> 로그 기록, 리소스 모니터링, 장애 징후 확인 방식 설명 가능</div></div>
+<ul>
+<li>CPU / 메모리 / 디스크 사용률 확인</li>
+<li>네트워크 상태 확인</li>
+<li>로그 기록 기능</li>
+<li>CPU 사용률 80% 이상 경고</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/python-system-monitor" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card featured" data-name="java spring server monitoring dashboard oshi thymeleaf chartjs 서버 모니터링 대시보드">
+<div class="badge java">Java / Spring</div>
+<h3>Server Monitor Dashboard</h3>
+<span class="mini-label">대표 프로젝트 · Java/Spring</span>
+<p class="project-point">Spring Boot와 OSHI를 활용해 서버 상태를 웹 대시보드로 시각화한 프로젝트입니다.</p>
+<p>CPU 및 메모리 사용량을 실시간으로 수집하고 Chart.js를 통해 서버 상태를 한눈에 확인할 수 있도록 구현했습니다.</p>
+<div class="tech-tags"><span>Java</span><span>Spring Boot</span><span>OSHI</span><span>Thymeleaf</span><span>Chart.js</span></div>
+<div class="project-meta"><div><strong>운영 관점:</strong> 서버 상태를 웹 화면으로 확인하는 대시보드 구조 구현</div><div><strong>면접 포인트:</strong> 데이터 수집 주기, 화면 갱신, 모니터링 UI 구성 설명 가능</div></div>
+<ul>
+<li>OSHI 라이브러리 기반 시스템 정보 수집</li>
+<li>Spring Boot 백엔드 구성</li>
+<li>Thymeleaf 기반 대시보드 UI</li>
+<li>3초 주기 자동 갱신</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/server-monitor-dashboard" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card featured" data-name="java spring ops watcher monitoring crud security server management mysql">
+<div class="badge java">Java / Spring</div>
+<h3>OpsWatcher</h3>
+<span class="mini-label">대표 프로젝트 · 서버 관리</span>
+<p class="project-point">IT 운영/서버 관리 흐름을 가정해 만든 Spring Boot 기반 운영 관리 시스템입니다.</p>
+<p>서버 등록, 상태 관리, 인증, 대시보드 UI를 구성해 운영 업무에서 필요한 기본 관리 흐름을 구현했습니다.</p>
+<div class="tech-tags"><span>Java</span><span>Spring Boot</span><span>Spring Security</span><span>MySQL</span><span>CRUD</span></div>
+<div class="project-meta"><div><strong>운영 관점:</strong> 서버 등록·상태 관리·인증 흐름을 관리 시스템 형태로 구성</div><div><strong>면접 포인트:</strong> CRUD, 로그인, DB 연동, 서버 상태 판단 로직 설명 가능</div></div>
+<ul>
+<li>Spring Security 인증 및 로그인 기능</li>
+<li>서버 CRUD 관리 기능</li>
+<li>상태 자동 판단 로직</li>
+<li>MySQL 기반 데이터 관리</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/ops-management-system" target="_blank">GitHub</a></div>
+</article>
+</div>
+</div>
+</section>
+
+<section class="section" id="projects">
+<div class="section-shell">
+<div class="section-header">
+<h2>Other Projects</h2>
+<input id="searchInput" placeholder="기타 프로젝트 검색: OpenCV, Android, CSV..." type="text"/>
+</div>
+<div class="project-grid" id="projectGrid">
+<article class="card project-card" data-name="expense analyzer 지출 분석 python 자동화 csv excel data">
+<div class="badge">Python</div>
+<h3>Expense Analyzer</h3>
+<p>CSV 및 Excel 파일을 기반으로 개인 지출 데이터를 분석하고 요약 리포트를 생성하는 Python 자동화 프로그램입니다.</p>
+<div class="tech-tags"><span>Python</span><span>CSV</span><span>Excel</span><span>Data Processing</span><span>CLI</span></div>
+<ul>
+<li>CSV / Excel 파일 입력 처리</li>
+<li>지출 데이터 자동 분석 및 집계</li>
+<li>카테고리별 지출 요약</li>
+<li>결과 CSV 자동 저장</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/python-expense-analyzer" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card" data-name="media classifier 미디어 파일 분류기 python 자동화 파일관리">
+<div class="badge">Python</div>
+<h3>Media Classifier</h3>
+<p>폴더 내 파일을 탐색하여 이미지와 영상 파일을 기준별로 자동 분류하는 Python 파일 관리 자동화 프로그램입니다.</p>
+<div class="tech-tags"><span>Python</span><span>File Automation</span><span>OS</span><span>Folder Management</span></div>
+<ul>
+<li>폴더 내 파일 자동 탐색</li>
+<li>이미지 / 영상 분류</li>
+<li>확장자 기준 자동 정리</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/python-media-classifier" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card" data-name="image analyzer web flask opencv 이미지 분석 웹 face detection">
+<div class="badge">Python</div>
+<h3>Image Analyzer Web</h3>
+<p>업로드된 이미지에서 얼굴을 검출하고 기준 이미지와 비교하여 특정 인물 포함 여부를 판별하는 웹 애플리케이션입니다.</p>
+<div class="tech-tags"><span>Python</span><span>Flask</span><span>OpenCV</span><span>Image Processing</span><span>Web</span></div>
+<ul>
+<li>이미지 업로드 및 분석 기능</li>
+<li>OpenCV 기반 얼굴 검출</li>
+<li>히스토그램 기반 이미지 유사도 비교</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/image-analyzer-web" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card" data-name="face classifier python opencv 이미지 분류 face detection">
+<div class="badge">Python</div>
+<h3>Face Classifier</h3>
+<p>특정 인물 사진을 기준 이미지와 비교하여 분류하는 Python 로컬 실행형 프로그램입니다.</p>
+<div class="tech-tags"><span>Python</span><span>OpenCV</span><span>Local App</span><span>Classification</span></div>
+<ul>
+<li>파일 처리 로직 구현</li>
+<li>로컬 환경 실행형 프로그램</li>
+<li>OpenCV 기반 얼굴 검출</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/python-face-classifier" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card" data-name="except number android 모바일 앱 연락처 무음 앱 kotlin contacts audiomanager">
+<div class="badge mobile">Mobile</div>
+<h3>Except Number (Android)</h3>
+<p>컴퓨터정보과 캡스톤 디자인 팀 프로젝트로 개발한 특정 연락처만 벨소리를 허용하는 안드로이드 앱입니다.</p>
+<div class="tech-tags"><span>Android</span><span>Kotlin</span><span>ContactsContract</span><span>RecyclerView</span><span>AudioManager</span></div>
+<ul>
+<li>연락처 API 활용</li>
+<li>RecyclerView 기반 연락처 리스트</li>
+<li>AudioManager로 무음/진동 제어</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/Android-except-number" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card" data-name="개인 포트폴리오 웹사이트 html css javascript 프론트엔드 responsive">
+<div class="badge">Web</div>
+<h3>개인 포트폴리오 웹사이트</h3>
+<p>HTML, CSS, JavaScript를 활용해 제작한 반응형 포트폴리오 대시보드입니다.</p>
+<div class="tech-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Responsive</span></div>
+<ul>
+<li>반응형 레이아웃</li>
+<li>프로젝트 카드 UI 구성</li>
+<li>검색 기능 구현</li>
+<li>PC / 모바일 화면 대응</li>
+</ul>
+<div class="project-links"><a href="https://github.com/sumin-devlab/web-portfolio" target="_blank">GitHub</a></div>
+</article>
+<article class="card project-card" data-name="it 운영 문제 해결 시나리오 운영 시스템 지원 helpdesk troubleshooting">
+<div class="badge ops">IT Operations</div>
+<h3>IT 운영 문제 해결 시나리오</h3>
+<p class="project-point">사용자 장애 상황을 단계적으로 확인하고 해결하는 IT 운영 대응 절차를 정리했습니다.</p>
+<div class="tech-tags"><span>Troubleshooting</span><span>IT Support</span><span>Log Check</span><span>Documentation</span></div>
+<ul>
+<li>사용자 환경 및 오류 상황 확인</li>
+<li>프로그램 설치 여부 및 버전 확인</li>
+<li>시스템 로그 및 오류 메시지 확인</li>
+<li>해결 후 사용자 안내</li>
+</ul>
+<div class="project-links"><a href="https://sumin-devlab.github.io/IT-operation/index.html" target="_blank">문서 보기</a></div>
+</article>
+</div>
+</div>
+</section>
+
+<section class="section" id="education">
+<div class="section-shell">
+<div class="section-header"><h2 style="color:#1e3a8a;">Education</h2></div>
+<div class="about-card education-card">
+<div class="edu-school">
+<p>제주한라대학교 방송영상학과 (2025.3 편입학, <strong style="color:#1e3a8a">2027.2 졸업 예정 / 학사 취득 예정</strong>)</p>
+<p class="edu-note"><strong style="color:#1e3a8a">졸업요건 대부분 이수 완료, 최종학기(4학년 2학기)에는 2학점만 이수 예정입니다.</strong></p>
+</div>
+<div class="edu-school">
+<p>제주한라대학교 <strong style="color:#1e3a8a">컴퓨터정보과</strong> (2023.3 입학, 2025.2 졸업 / 전문학사)</p>
+<div class="highlight-box">컴퓨터정보 전공을 기반으로 Python 자동화 프로젝트와 Java(Spring Boot) 서버 관리 프로젝트를 직접 구현했습니다.</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="section" id="contact">
+<div class="section-shell">
+<div class="section-header"><h2>Contact</h2></div>
+<div class="contact-card">
+<p><strong>이름:</strong> 하수민</p>
+<p><strong>한 줄 소개:</strong> 시스템 운영 / 서버 관리 / 백엔드 개발 직무 준비 중</p>
+<p><strong>포트폴리오 특징:</strong> 대표 프로젝트 코드와 README를 GitHub에 공개했습니다.</p>
+<div class="contact-buttons">
+<a href="https://github.com/sumin-devlab" target="_blank">GitHub 바로가기</a>
+<a href="mailto:benjam2n95@hanmail.net">Email 보내기</a>
+<a href="https://sumin-devlab.github.io/web-portfolio/index.html" target="_blank">Portfolio URL</a>
+</div>
+</div>
+</div>
+</section>
+
+<p class="footer-note">Responsive portfolio · single file version</p>
+</main>
+</div>
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const projectCards = document.querySelectorAll("#projectGrid .project-card");
+    const menuLinks = document.querySelectorAll(".menu-link");
+    const sections = document.querySelectorAll("section");
+
+    if (searchInput) {
+      searchInput.addEventListener("input", function () {
+        const keyword = searchInput.value.toLowerCase().trim();
+        projectCards.forEach((card) => {
+          const text = (card.dataset.name || "").toLowerCase() + " " + card.innerText.toLowerCase();
+          card.style.display = text.includes(keyword) ? "flex" : "none";
+        });
+      });
+    }
+
+    window.addEventListener("scroll", () => {
+      let current = "home";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 140;
+        if (window.scrollY >= sectionTop) current = section.getAttribute("id");
+      });
+      menuLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) link.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
